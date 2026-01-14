@@ -22,6 +22,18 @@ A comprehensive, lightweight, and fully-typed API wrapper for Emergency Response
 npm install github:EldamianO7/ERLC-API
 ```
 
+## 🚀 Setup Global API Key (Optional)
+
+```typescript
+import erlc from "erlc-api";
+
+const client = new erlc.Client({
+  globalToken: "your-global-token-here",
+});
+
+client.config();
+```
+
 ## 📖 API Methods
 
 ##### Note: Examples are shown in TypeScript, but this library is fully compatible with JavaScript.
