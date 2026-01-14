@@ -1,7 +1,8 @@
-# 🚔 ER:LC API Wrapper
+# 🚔 ER:LC API Wrapper (Fork)
 
-[![npm version](https://badge.fury.io/js/erlc-api.svg)](https://badge.fury.io/js/erlc-api)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+#### ⚠️ Note about this Fork: This version has been modified to work without a Global API key by using serverTokens directly. The initialization of the Client class is now optional, allowing the use of standalone functions. This fork also adds missing TypeScript types and includes direct links to the official API documentation for every function.
 
 A comprehensive, lightweight, and fully-typed API wrapper for Emergency Response: Liberty County (ER:LC) with 100% API coverage, robust error handling, and TypeScript support.
 
@@ -18,52 +19,24 @@ A comprehensive, lightweight, and fully-typed API wrapper for Emergency Response
 ## 📦 Installation
 
 ```bash
-npm install erlc-api
-```
-
-```bash
-bun add erlc-api
-```
-
-## 🚀 Quick Start
-
-### Basic Setup
-
-```javascript
-const erlc = require("erlc-api");
-
-// Initialize the client with your global token
-const client = new erlc.Client({
-  globalToken: "your-global-token-here", // Get this from ER:LC developers
-});
-
-// Register your client
-client.config();
-```
-
-### TypeScript Setup
-
-```typescript
-import erlc from "erlc-api";
-
-const client = new erlc.Client({
-  globalToken: "your-global-token-here",
-});
-
-client.config();
+npm install github:EldamianO7/ERLC-API
 ```
 
 ## 📖 API Methods
+
+##### Note: Examples are shown in TypeScript, but this library is fully compatible with JavaScript.
 
 ### 🖥️ Server Information
 
 #### Get Server Details
 
-```javascript
+```typescript
+import { getServer } from "erlc-api";
+
 const getServerInfo = async () => {
   try {
     const serverToken = "your-server-api-key"; // From Server Settings
-    const server = await erlc.getServer(serverToken);
+    const server = await getServer(serverToken);
 
     console.log(server);
     /*
@@ -88,10 +61,12 @@ const getServerInfo = async () => {
 
 #### Get Current Players
 
-```javascript
+```typescript
+import { getPlayers } from "erlc-api";
+
 const getCurrentPlayers = async () => {
   try {
-    const players = await erlc.getPlayers(serverToken);
+    const players = await getPlayers(serverToken);
 
     console.log(players);
     /*
@@ -112,10 +87,12 @@ const getCurrentPlayers = async () => {
 
 #### Get Server Queue
 
-```javascript
+```typescript
+import { getQueue } from "erlc-api";
+
 const getServerQueue = async () => {
   try {
-    const queue = await erlc.getQueue(serverToken);
+    const queue = await getQueue(serverToken);
     console.log(`Players in queue: ${queue.length}`);
   } catch (error) {
     console.error("Error fetching queue:", error.message);
@@ -125,12 +102,16 @@ const getServerQueue = async () => {
 
 ### 👥 Staff Management
 
-#### Get Staff Information
+#### Get Staff Information (DEPRECATED)
 
-```javascript
+This endpoint is deprecated. Although the developers have stated it will not be altered for now, use it with caution as it is no longer maintained.
+
+```typescript
+import { getStaff } from "erlc-api";
+
 const getStaffInfo = async () => {
   try {
-    const staff = await erlc.getStaff(serverToken);
+    const staff = await getStaff(serverToken);
 
     console.log(staff);
     /*
@@ -151,10 +132,12 @@ const getStaffInfo = async () => {
 
 #### Get Join/Leave Logs
 
-```javascript
-const getJoinLogs = async () => {
+```typescript
+import { getJoinLogs } from "erlc-api";
+
+const getGameJoinLogs = async () => {
   try {
-    const logs = await erlc.getJoinLogs(serverToken);
+    const logs = await getJoinLogs(serverToken);
 
     logs.forEach((log) => {
       const action = log.Join ? "joined" : "left";
@@ -170,10 +153,12 @@ const getJoinLogs = async () => {
 
 #### Get Kill Logs
 
-```javascript
-const getKillLogs = async () => {
+```typescript
+import { getKillLogs } from "erlc-api";
+
+const getGameKillLogs = async () => {
   try {
-    const kills = await erlc.getKillLogs(serverToken);
+    const kills = await getKillLogs(serverToken);
 
     kills.forEach((kill) => {
       console.log(
@@ -190,10 +175,12 @@ const getKillLogs = async () => {
 
 #### Get Command Logs
 
-```javascript
-const getCommandLogs = async () => {
+```typescript
+import { getCommandLogs } from "erlc-api";
+
+const getGameCommandLogs = async () => {
   try {
-    const commands = await erlc.getCommandLogs(serverToken);
+    const commands = await getCommandLogs(serverToken);
 
     commands.forEach((cmd) => {
       console.log(`${cmd.Player} executed: ${cmd.Command}`);
@@ -206,10 +193,12 @@ const getCommandLogs = async () => {
 
 #### Get Moderator Call Logs
 
-```javascript
+```typescript
+import { getModcallLogs } from "erlc-api";
+
 const getModCalls = async () => {
   try {
-    const modcalls = await erlc.getModcallLogs(serverToken);
+    const modcalls = await getModcallLogs(serverToken);
 
     modcalls.forEach((call) => {
       const status = call.Moderator
@@ -227,10 +216,12 @@ const getModCalls = async () => {
 
 #### Get Server Vehicles
 
-```javascript
-const getVehicles = async () => {
+```typescript
+import { getVehicles } from "erlc-api";
+
+const getGameVehicles = async () => {
   try {
-    const vehicles = await erlc.getVehicles(serverToken);
+    const vehicles = await getVehicles(serverToken);
 
     vehicles.forEach((vehicle) => {
       console.log(
@@ -249,13 +240,12 @@ const getVehicles = async () => {
 
 #### Execute Server Commands
 
-```javascript
+```typescript
+import { runCommand } from "erlc-api";
+
 const executeCommand = async () => {
   try {
-    const success = await erlc.runCommand(
-      serverToken,
-      ":h Welcome to our server!"
-    );
+    const success = await runCommand(serverToken, ":h Welcome to our server!");
 
     if (success) {
       console.log("Command executed successfully!");
@@ -268,10 +258,12 @@ const executeCommand = async () => {
 
 #### Get Server Bans
 
-```javascript
+```typescript
+import { getBans } from "erlc-api";
+
 const getBannedPlayers = async () => {
   try {
-    const bans = await erlc.getBans(serverToken);
+    const bans = await getBans(serverToken);
 
     Object.entries(bans).forEach(([playerId, playerName]) => {
       console.log(`${playerName} (${playerId}) is banned`);
@@ -286,10 +278,12 @@ const getBannedPlayers = async () => {
 
 ### Error Handling Best Practices
 
-```javascript
+```typescript
+import { getServer } from "erlc-api";
+
 const handleApiCall = async () => {
   try {
-    const result = await erlc.getServer(serverToken);
+    const result = await getServer(serverToken);
     return result;
   } catch (error) {
     // The error is now an ErlcError with detailed information
@@ -332,15 +326,17 @@ const handleApiCall = async () => {
 
 ### Batch Operations
 
-```javascript
+```typescript
+import { getServer, getPlayers, getStaff, getVehicles } from "erlc-api";
+
 const getServerOverview = async (serverToken) => {
   try {
     // Execute multiple API calls concurrently
     const [serverInfo, players, staff, vehicles] = await Promise.all([
-      erlc.getServer(serverToken),
-      erlc.getPlayers(serverToken),
-      erlc.getStaff(serverToken),
-      erlc.getVehicles(serverToken),
+      getServer(serverToken),
+      getPlayers(serverToken),
+      getStaff(serverToken),
+      getVehicles(serverToken),
     ]);
 
     return {
@@ -359,50 +355,36 @@ const getServerOverview = async (serverToken) => {
 
 ## 🔑 Authentication
 
-### Getting Your Tokens
-
-1. **Global Token**: Contact ER:LC developers through their [Discord](https://discord.gg/prc) to request increased API limits
-2. **Server Token**: Found in your server settings within ER:LC
-
-### Token Security
-
-```javascript
-// ❌ Don't hardcode tokens
-const client = new erlc.Client({
-  globalToken: "your-token-here",
-});
-
-// ✅ Use environment variables
-const client = new erlc.Client({
-  globalToken: process.env.ERLC_GLOBAL_TOKEN,
-});
-```
+**Server Token**: Found in your server settings within ER:LC
 
 ## 📝 TypeScript Support
 
 The package includes comprehensive TypeScript definitions:
 
 ```typescript
-import erlc, { ServerStatus, ServerPlayer, JoinLog } from "erlc-api";
-
-const client = new erlc.Client({
-  globalToken: process.env.ERLC_GLOBAL_TOKEN!,
-});
-
-client.config();
+import {
+  getServer,
+  getPlayers,
+  getJoinLogs,
+  type ServerStatus,
+  type ServerPlayer,
+  type JoinLog,
+} from "erlc-api";
 
 // Fully typed responses
-const server: ServerStatus = await erlc.getServer(serverToken);
-const players: ServerPlayer[] = await erlc.getPlayers(serverToken);
-const joinLogs: JoinLog[] = await erlc.getJoinLogs(serverToken);
+const server: ServerStatus = await getServer(serverToken);
+const players: ServerPlayer[] = await getPlayers(serverToken);
+const joinLogs: JoinLog[] = await getJoinLogs(serverToken);
 ```
 
 ## ⚡ Performance Tips
 
-1. **Use Promise.all()** for concurrent requests when fetching multiple endpoints
-2. **Implement caching** for frequently accessed data that doesn't change often
-3. **Handle rate limits** by implementing retry logic with exponential backoff
-4. **Use timeouts** - all methods have built-in 10-15 second timeouts
+1. **Use Promise.all()** for concurrent requests when fetching multiple endpoints.
+2. **Implement caching** for frequently accessed data that doesn't change often (like server info or staff lists).
+3. **Handle rate limits** by implementing retry logic with exponential backoff (see example below).
+4. **Use timeouts** - all methods have built-in 10-15 second timeouts to prevent hanging requests.
+5. **Respect the Rate Limits**: Standard Server Tokens are limited to approximately **2 credits per minute**. Avoid calling functions inside fast loops. Frequent limit violations may lead to temporary API bans or stricter restrictions!
+6. **Adaptive Design**: Avoid hardcoding fixed cooldowns. Instead, rely on the error responses to adjust your request frequency dynamically, as API limits may change without notice.
 
 ## 🐛 Error Types
 
@@ -442,7 +424,9 @@ All errors are instances of `ErlcError` with these properties:
 
 ### Retry Logic Example
 
-```javascript
+```typescript
+import { getPlayers } from "erlc-api";
+
 async function withRetry(apiCall, maxRetries = 3) {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
@@ -460,12 +444,8 @@ async function withRetry(apiCall, maxRetries = 3) {
 }
 
 // Usage
-const players = await withRetry(() => erlc.getPlayers(serverToken));
+const players = await withRetry(() => getPlayers(serverToken));
 ```
-
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
 
 ## 📄 License
 
@@ -473,25 +453,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🔗 Links
 
-- **Discord Bot**: [Invite to your server](https://discord.com/oauth2/authorize?client_id=1014990793280323624)
+- **Original ER:LC API Wrapper**: [ER:LC API Wrapper](https://github.com/Exodo0/ERLC-API/)
 - **API Documentation**: [PRC API Docs](https://apidocs.policeroleplay.community/reference/api-reference)
 - **Discord Support**: [Join PRC Discord](https://discord.gg/prc)
-- **Custom Liveries**: [Browse Collection](https://github.com/Exodo0/ERLC-API/tree/main/Custom%20Liveries)
 
 ## 👨‍💻 Credits
 
 - **Library Development**: [Egologics](https://twitter.com/0Adexus0)
-- **NPM Package**: [ERLC-API](https://www.npmjs.com/package/erlc-api)
 - **API Development**: [Police Roleplay Community](https://twitter.com/PRC_Roblox)
 - **Community Support**: [PRC Discord Community](https://discord.gg/prc)
-
----
-
-<div align="center">
-  <p>Made with ❤️ for the ER:LC community</p>
-  <p>
-    <a href="https://github.com/Exodo0/ERLC-API">⭐ Star us on GitHub</a> •
-    <a href="https://discord.gg/prc">💬 Join our Discord</a> •
-    <a href="https://twitter.com/0Adexus0">🐦 Follow on Twitter</a>
-  </p>
-</div>

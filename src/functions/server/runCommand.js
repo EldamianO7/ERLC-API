@@ -26,22 +26,12 @@ module.exports = (serverToken, command) => {
       const fetch = await import("node-fetch");
       const { config } = await import("../../erlc.js");
 
-      // Check if global token is configured
-      if (!config?.globalToken) {
-        const error = await processError(
-          new Error(
-            "Global token not configured. Please initialize the client first."
-          )
-        );
-        return reject(error);
-      }
-
       const requestBody = JSON.stringify({ command: command.trim() });
 
       const res = await fetch.default(`${BASEURL}/server/command`, {
         method: "POST",
         headers: {
-          Authorization: config.globalToken,
+          ...(config?.globalToken && { Authorization: config.globalToken }),
           "Server-Key": serverToken,
           "Content-Type": "application/json",
         },

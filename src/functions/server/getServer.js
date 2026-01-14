@@ -12,18 +12,9 @@ module.exports = (serverToken) => {
       const fetch = await import("node-fetch");
       const { config } = await import("../../erlc.js");
 
-      // Check if global token is configured
-      if (!config?.globalToken) {
-        return reject(
-          new Error(
-            "Global token not configured. Please initialize the client first."
-          )
-        );
-      }
-
       const res = await fetch.default(`${BASEURL}/server`, {
         headers: {
-          Authorization: config?.globalToken,
+          ...(config?.globalToken && { Authorization: config.globalToken }),
           "Server-Key": serverToken,
         },
         timeout: 10000, // 10 second timeout

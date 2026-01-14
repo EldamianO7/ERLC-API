@@ -24,13 +24,5 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Exodo0/ERLC-API.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Exodo0/ERLC-API/issues"
-  },
-  "homepage": "https://github.com/Exodo0/ERLC-API#readme"
+  }
 }

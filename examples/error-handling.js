@@ -1,12 +1,5 @@
 const erlc = require("../index.js");
 
-// Initialize the client
-const client = new erlc.Client({
-  globalToken: "your-global-token-here",
-});
-
-client.config();
-
 /**
  * Example of comprehensive error handling with the new ERLC error system
  */

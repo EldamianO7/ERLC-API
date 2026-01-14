@@ -4,3 +4,5 @@ bun.lock
 node_modules
 
 test-project
+
+.DS_Store

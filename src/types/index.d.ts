@@ -29,7 +29,7 @@ declare module "erlc-api" {
   }
 
   export interface ClientConfig {
-    globalToken: string; // The ER:LC global API token
+    globalToken?: string; // The ER:LC global API token
   }
 
   export const BASEURL = "https://api.policeroleplay.community/v1";
@@ -61,6 +61,8 @@ declare module "erlc-api" {
   export interface ServerPlayer {
     Player: ErlcPlayer;
     Permission: ErlcPlayerPermission;
+    Callsign?: string;
+    Team: string;
   }
 
   export interface JoinLog {
@@ -105,16 +107,31 @@ declare module "erlc-api" {
     command: string; // ":h Hey everyone!"
   }
 
+  /**@see https://apidocs.policeroleplay.community/for-developers/api-reference#get-server-bans*/
   export function getBans(serverToken: string): Promise<ServerBan>;
+  /**@see https://apidocs.policeroleplay.community/for-developers/api-reference#get-server-commandlogs*/
   export function getCommandLogs(serverToken: string): Promise<CommandLog[]>;
+  /**@see https://apidocs.policeroleplay.community/for-developers/api-reference#get-server-joinlogs*/
   export function getJoinLogs(serverToken: string): Promise<JoinLog[]>;
+  /**@see https://apidocs.policeroleplay.community/for-developers/api-reference#get-server-killlogs*/
   export function getKillLogs(serverToken: string): Promise<KillLog[]>;
+  /**@see https://apidocs.policeroleplay.community/for-developers/api-reference#get-server-modcalls*/
   export function getModcallLogs(serverToken: string): Promise<ModcallLog[]>;
+  /**@see https://apidocs.policeroleplay.community/for-developers/api-reference#get-server-players*/
   export function getPlayers(serverToken: string): Promise<ServerPlayer[]>;
+  /**@see https://apidocs.policeroleplay.community/for-developers/api-reference#get-server-queue*/
   export function getQueue(serverToken: string): Promise<number[]>;
+  /**@see https://apidocs.policeroleplay.community/for-developers/api-reference#get-server*/
   export function getServer(serverToken: string): Promise<ServerStatus>;
+  /**
+   * @deprecated This endpoint is deprecated. Although the developers have stated
+   * it will not be altered for now, use it with caution as it is no longer maintained.
+   * @see https://apidocs.policeroleplay.community/for-developers/api-reference#get-server-staff
+   */
   export function getStaff(serverToken: string): Promise<ServerStaff>;
+  /**@see https://apidocs.policeroleplay.community/for-developers/api-reference#get-server-vehicles*/
   export function getVehicles(serverToken: string): Promise<VehiclesLog[]>;
+  /**@see https://apidocs.policeroleplay.community/for-developers/api-reference#post-server-command*/
   export function runCommand(
     serverToken: string,
     command: string
